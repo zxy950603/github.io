@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>韩语语法练习</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', Dotum, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .exercise {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .vocab {
+            background-color: #f0f7ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background-color: #e8f8f5;
+        }
+        .error {
+            background-color: #fde8e8;
+            color: #c0392b;
+        }
+        input[type="text"] {
+            padding: 5px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .name-field {
+            margin-bottom: 20px;
+        }
+        .name-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .name-field input {
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>韩语语法练习</h1>
+    <p>完成以下练习，完成后点击"检查时间"按钮查看所用时间。</p>
+    
+    <div class="name-field">
+        <label for="studentName">姓名:</label>
+        <input type="text" id="studentName" placeholder="请输入您的姓名">
+    </div>
+    
+    <div class="exercise">
+        <h2>练习1: 填写表格</h2>
+        <p>仿照示例，完成下表。</p>
+        <table>
+            <tr>
+                <th>谓词</th>
+                <th>-아/어 보세요</th>
+                <th>-아도/아도 돼요</th>
+            </tr>
+            <tr>
+                <td>가다</td>
+                <td>가 보세요</td>
+                <td>가도 돼요</td>
+            </tr>
+            <tr>
+                <td>먹다</td>
+                <td><input type="text" id="q1-1" class="korean-input"></td>
+                <td><input type="text" id="q1-2" class="korean-input"></td>
+            </tr>
+            <tr>
+                <td>일다</td>
+                <td><input type="text" id="q1-3" class="korean-input"></td>
+                <td><input type="text" id="q1-4" class="korean-input"></td>
+            </tr>
+            <tr>
+                <td>신다</td>
+                <td><input type="text" id="q1-5" class="korean-input"></td>
+                <td><input type="text" id="q1-6" class="korean-input"></td>
+            </tr>
+            <tr>
+                <td>운동하다</td>
+                <td><input type="text" id="q1-7" class="korean-input"></td>
+                <td><input type="text" id="q1-8" class="korean-input"></td>
+            </tr>
+            <tr>
+                <td>여행하다</td>
+                <td><input type="text" id="q1-9" class="korean-input"></td>
+                <td><input type="text" id="q1-10" class="korean-input"></td>
+            </tr>
+            <tr>
+                <td>*丛다</td>
+                <td><input type="text" id="q1-11" class="korean-input"></td>
+                <td><input type="text" id="q1-12" class="korean-input"></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="exercise">
+        <h2>练习2: 使用"-아/어 보다"完成对话</h2>
+        <p>仿照示例，使用"-아/어 보다"完成对话。</p>
+        
+        <div class="vocab">
+            <p><strong>词汇:</strong> 스트레스 [名] 压力 / 요가 [名] 瑜伽 / 도움이 되다 [词组] 有帮助 / 베이징카오야 [名] 北京烤鸭 / 축제 [名] 节日, 庆典</p>
+        </div>
+        
+        <p><strong>示例:</strong></p>
+        <p>가: 이 바지는 저에게 작지 않을까요?</p>
+        <p>나: 아니에요. 안 작아요. 한번 입어 보세요. (일다)</p>
+        
+        <p>1) 가: 소설을 읽고 싶어요.</p>
+        <p>나: 그럼 이 소설을 <input type="text" id="q2-1" class="korean-input"> 아주 재미있어요. (읽다)</p>
+        
+        <p>2) 가: 요즘 스트레스가 많아서 잠을 잘 수 없어요.</p>
+        <p>나: 저는 요가가 도움이 많이 됐어요. 요가를 한번 <input type="text" id="q2-2" class="korean-input">. (배우다)</p>
+        
+        <p>3) 가: 다음 주에 베이징에 갈 거예요.</p>
+        <p>나: 그래요? 그럼 베이징에서 베이징카오야를 <input type="text" id="q2-3" class="korean-input">. (먹다)</p>
+        
+        <p>4) 가: 친구하고 겨울 여행을 하고 싶어요. 어디에 가면 좋을까요?</p>
+        <p>나: 중국 하얼빈에 <input type="text" id="q2-4" class="korean-input">. 겨울 축제가 아주 유명해요. (가다)</p>
+    </div>
+    
+    <div class="exercise">
+        <h2>练习3: 使用"-아도/아도 되다"完成对话</h2>
+        <p>仿照示例, 使用"-아도/아도 되다"完成对话。</p>
+        
+        <p><strong>示例:</strong></p>
+        <p>1. 가: 이 빵 제가 (먹어도 돼요)?</p>
+        <p>나: 그럼요, 드세요.</p>
+        
+        <p>2. 가: 이 물 (<input type="text" id="q3-1" class="korean-input">)?</p>
+        <p>나: 네, 드세요.</p>
+        
+        <p>3. 가: 여기에 (<input type="text" id="q3-2" class="korean-input">)?</p>
+        <p>나: 앉으면 안 돼요, 의자가 고장 났어요.</p>
+        
+        <p>4. 가: 지금 (<input type="text" id="q3-3" class="korean-input">)?</p>
+        <p>나: 안 돼요, 이따가 들어오세요.</p>
+        
+        <p>5. 가: 이 바지 (<input type="text" id="q3-4" class="korean-input">)?</p>
+        <p>나: 네, 저쪽에서 입어 보세요.</p>
+    </div>
+    
+    <div class="exercise">
+        <h2>练习4: 根据情景提问并写下朋友的回答</h2>
+        <p>在下面场景中你要怎么说？向朋友提问，并将朋友的回答写在下面。</p>
+        
+        <p><strong>示例:</strong></p>
+        <p>1) 책, 읽다</p>
+        <p>가: 이 책 읽어도 돼요?</p>
+        <p>나: 네, 돼요.</p>
+        
+        <p>2) 사진, 보다</p>
+        <p>가: <input type="text" id="q4-1" class="korean-input"></p>
+        <p>나: <input type="text" id="q4-2" class="korean-input"></p>
+        
+        <p>3) 과자, 먹다</p>
+        <p>가: <input type="text" id="q4-3" class="korean-input"></p>
+        <p>나: <input type="text" id="q4-4" class="korean-input"></p>
+        
+        <p>4) 운동화, 신다</p>
+        <p>가: <input type="text" id="q4-5" class="korean-input"></p>
+        <p>나: <input type="text" id="q4-6" class="korean-input"></p>
+    </div>
+    
+    <button id="checkTime">检查时间</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        let startTime = new Date();
+        
+        document.getElementById('checkTime').addEventListener('click', function() {
+            // 检查姓名是否填写
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                showResult("请输入您的姓名", false);
+                return;
+            }
+            
+            // 检查所有输入框是否已填写
+            const inputs = document.querySelectorAll('.korean-input');
+            let allFilled = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    allFilled = false;
+                }
+            });
+            
+            if (!allFilled) {
+                showResult("请完成所有题目后再检查时间", false);
+                return;
+            }
+            
+            // 检查韩语格式（简单检查是否包含韩文字符）
+            let hasKorean = true;
+            inputs.forEach(input => {
+                const value = input.value.trim();
+                if (value && !/[가-힣]/.test(value)) {
+                    hasKorean = false;
+                }
+            });
+            
+            if (!hasKorean) {
+                showResult("请按规范做题，使用正确的韩语格式", false);
+                return;
+            }
+            
+            // 所有检查通过，显示时间
+            let endTime = new Date();
+            let timeDiff = endTime - startTime; // in milliseconds
+            
+            // Convert to minutes and seconds
+            let minutes = Math.floor(timeDiff / 60000);
+            let seconds = Math.floor((timeDiff % 60000) / 1000);
+            
+            let resultText = studentName + " 同学，你完成练习所用时间: ";
+            if (minutes > 0) {
+                resultText += minutes + "分" + seconds + "秒";
+            } else {
+                resultText += seconds + "秒";
+            }
+            
+            showResult(resultText, true);
+        });
+        
+        function showResult(message, isSuccess) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = isSuccess ? 'success' : 'error';
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
