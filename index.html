@@ -1,289 +1,586 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>韩语语法练习</title>
+    <title>消消乐</title>
     <style>
         body {
-            font-family: 'Malgun Gothic', Dotum, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        h1, h2 {
-            color: #2c3e50;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-        }
-        .exercise {
-            background-color: white;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            background-color: #FFF9F0; /* 奶白色背景 */
             text-align: center;
+            margin: 0;
+            padding: 20px;
+            user-select: none;
+            overflow-x: hidden;
         }
-        th {
-            background-color: #f2f2f2;
+        
+        h1 {
+            color: #FF9AA2; /* 粉色标题 */
+            font-size: 48px;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 0 #FFDAC1;
         }
-        .vocab {
-            background-color: #f0f7ff;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        #result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            display: none;
-        }
-        .success {
-            background-color: #e8f8f5;
-        }
-        .error {
-            background-color: #fde8e8;
-            color: #c0392b;
-        }
-        input[type="text"] {
-            padding: 5px;
-            margin: 0 5px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-        }
-        .name-field {
+        
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin-bottom: 20px;
         }
-        .name-field label {
-            display: block;
-            margin-bottom: 5px;
+        
+        .level-buttons {
+            margin-bottom: 20px;
+        }
+        
+        button {
+            background-color: #FFB7B2;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        button:hover {
+            background-color: #FF9AA2;
+            transform: scale(1.05);
+        }
+        
+        .board {
+            display: grid;
+            gap: 15px;
+            margin: 20px auto;
+        }
+        
+        .level1 .board {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        .level2 .board {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .bubble {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             font-weight: bold;
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
-        .name-field input {
-            padding: 8px;
-            width: 200px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
+        
+        .level1 .bubble {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            font-size: 16px;
+            text-align: center;
+            padding: 5px;
+            box-sizing: border-box;
         }
+        
+        .level2 .bubble {
+            width: 180px;
+            height: 80px;
+            border-radius: 15px;
+            font-size: 18px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        
+        .bubble:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .selected {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .shake {
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .hidden {
+            visibility: hidden;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s;
+        }
+        
+        .level-complete {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 100;
+            font-size: 36px;
+            color: #FF9AA2;
+        }
+        
+        .congratulations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 100;
+            font-size: 36px;
+            color: #FF9AA2;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            animation: confetti-fall 5s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            70% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+        
+        .confetti:nth-child(7n) {
+            border-radius: 50%;
+            animation-timing-function: cubic-bezier(0.84, 0.02, 1, 1);
+        }
+        
+        .confetti:nth-child(7n+1) {
+            border-radius: 0;
+            animation-timing-function: cubic-bezier(0.65, 0.05, 0.85, 0.08);
+        }
+        
+        .confetti:nth-child(7n+2) {
+            border-radius: 50% 50% 0 0;
+            animation-timing-function: cubic-bezier(0.18, 0.89, 0.45, 1.27);
+        }
+        
+        .confetti:nth-child(7n+3) {
+            border-radius: 5px;
+            animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .confetti:nth-child(7n+4) {
+            border-radius: 50% 0 50% 50%;
+            animation-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+        
+        .confetti:nth-child(7n+5) {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+        }
+        
+        .confetti:nth-child(7n+6) {
+            border-radius: 20px;
+            animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+        }
+        
+        .timer {
+            font-size: 24px;
+            color: #FF9AA2;
+            margin-top: 20px;
+        }
+        
+        .next-level-btn {
+            margin-top: 20px;
+            background-color: #B5EAD7;
+            padding: 12px 25px;
+            font-size: 20px;
+        }
+        
+        .next-level-btn:hover {
+            background-color: #8BD8C7;
+        }
+        
+        .total-time {
+            font-size: 28px;
+            margin-top: 15px;
+            color: #C7CEEA;
+        }
+        
+        /* 深色马卡龙色系 */
+        .bubble-color-1 { background-color: #FF8A9A; }
+        .bubble-color-2 { background-color: #FF9E7D; }
+        .bubble-color-3 { background-color: #FFB347; }
+        .bubble-color-4 { background-color: #FFCC5C; }
+        .bubble-color-5 { background-color: #B5D8A8; }
+        .bubble-color-6 { background-color: #88C9A1; }
+        .bubble-color-7 { background-color: #7FB2D0; }
+        .bubble-color-8 { background-color: #9A9FD7; }
+        .bubble-color-9 { background-color: #D4A5C8; }
+        .bubble-color-10 { background-color: #F48FB1; }
     </style>
 </head>
 <body>
-    <h1>韩语语法练习</h1>
-    <p>完成以下练习，完成后点击"检查时间"按钮查看所用时间。</p>
+    <h1>消消乐</h1>
     
-    <div class="name-field">
-        <label for="studentName">姓名:</label>
-        <input type="text" id="studentName" placeholder="请输入您的姓名">
+    <div class="level-buttons">
+        <button id="level1-btn">第一关</button>
+        <button id="level2-btn">第二关</button>
     </div>
     
-    <div class="exercise">
-        <h2>练习1: 填写表格</h2>
-        <p>仿照示例，完成下表。</p>
-        <table>
-            <tr>
-                <th>谓词</th>
-                <th>-아/어 보세요</th>
-                <th>-아도/아도 돼요</th>
-            </tr>
-            <tr>
-                <td>가다</td>
-                <td>가 보세요</td>
-                <td>가도 돼요</td>
-            </tr>
-            <tr>
-                <td>먹다</td>
-                <td><input type="text" id="q1-1" class="korean-input"></td>
-                <td><input type="text" id="q1-2" class="korean-input"></td>
-            </tr>
-            <tr>
-                <td>일다</td>
-                <td><input type="text" id="q1-3" class="korean-input"></td>
-                <td><input type="text" id="q1-4" class="korean-input"></td>
-            </tr>
-            <tr>
-                <td>신다</td>
-                <td><input type="text" id="q1-5" class="korean-input"></td>
-                <td><input type="text" id="q1-6" class="korean-input"></td>
-            </tr>
-            <tr>
-                <td>운동하다</td>
-                <td><input type="text" id="q1-7" class="korean-input"></td>
-                <td><input type="text" id="q1-8" class="korean-input"></td>
-            </tr>
-            <tr>
-                <td>여행하다</td>
-                <td><input type="text" id="q1-9" class="korean-input"></td>
-                <td><input type="text" id="q1-10" class="korean-input"></td>
-            </tr>
-            <tr>
-                <td>*丛다</td>
-                <td><input type="text" id="q1-11" class="korean-input"></td>
-                <td><input type="text" id="q1-12" class="korean-input"></td>
-            </tr>
-        </table>
+    <div class="timer">总用时: <span id="time">00:00</span></div>
+    
+    <div class="game-container level1" id="level1">
+        <div class="board" id="board1"></div>
     </div>
     
-    <div class="exercise">
-        <h2>练习2: 使用"-아/어 보다"完成对话</h2>
-        <p>仿照示例，使用"-아/어 보다"完成对话。</p>
-        
-        <div class="vocab">
-            <p><strong>词汇:</strong> 스트레스 [名] 压力 / 요가 [名] 瑜伽 / 도움이 되다 [词组] 有帮助 / 베이징카오야 [名] 北京烤鸭 / 축제 [名] 节日, 庆典</p>
-        </div>
-        
-        <p><strong>示例:</strong></p>
-        <p>가: 이 바지는 저에게 작지 않을까요?</p>
-        <p>나: 아니에요. 안 작아요. 한번 입어 보세요. (일다)</p>
-        
-        <p>1) 가: 소설을 읽고 싶어요.</p>
-        <p>나: 그럼 이 소설을 <input type="text" id="q2-1" class="korean-input"> 아주 재미있어요. (읽다)</p>
-        
-        <p>2) 가: 요즘 스트레스가 많아서 잠을 잘 수 없어요.</p>
-        <p>나: 저는 요가가 도움이 많이 됐어요. 요가를 한번 <input type="text" id="q2-2" class="korean-input">. (배우다)</p>
-        
-        <p>3) 가: 다음 주에 베이징에 갈 거예요.</p>
-        <p>나: 그래요? 그럼 베이징에서 베이징카오야를 <input type="text" id="q2-3" class="korean-input">. (먹다)</p>
-        
-        <p>4) 가: 친구하고 겨울 여행을 하고 싶어요. 어디에 가면 좋을까요?</p>
-        <p>나: 중국 하얼빈에 <input type="text" id="q2-4" class="korean-input">. 겨울 축제가 아주 유명해요. (가다)</p>
+    <div class="game-container level2" id="level2" style="display: none;">
+        <div class="board" id="board2"></div>
     </div>
     
-    <div class="exercise">
-        <h2>练习3: 使用"-아도/아도 되다"完成对话</h2>
-        <p>仿照示例, 使用"-아도/아도 되다"完成对话。</p>
-        
-        <p><strong>示例:</strong></p>
-        <p>1. 가: 이 빵 제가 (먹어도 돼요)?</p>
-        <p>나: 그럼요, 드세요.</p>
-        
-        <p>2. 가: 이 물 (<input type="text" id="q3-1" class="korean-input">)?</p>
-        <p>나: 네, 드세요.</p>
-        
-        <p>3. 가: 여기에 (<input type="text" id="q3-2" class="korean-input">)?</p>
-        <p>나: 앉으면 안 돼요, 의자가 고장 났어요.</p>
-        
-        <p>4. 가: 지금 (<input type="text" id="q3-3" class="korean-input">)?</p>
-        <p>나: 안 돼요, 이따가 들어오세요.</p>
-        
-        <p>5. 가: 이 바지 (<input type="text" id="q3-4" class="korean-input">)?</p>
-        <p>나: 네, 저쪽에서 입어 보세요.</p>
+    <div class="level-complete" id="level-complete" style="display: none;">
+        <div>恭喜完成单词消消乐！</div>
+        <div>接下来进入词组消消乐的游戏吧！</div>
+        <button class="next-level-btn" id="next-level-btn">进入第二关</button>
     </div>
     
-    <div class="exercise">
-        <h2>练习4: 根据情景提问并写下朋友的回答</h2>
-        <p>在下面场景中你要怎么说？向朋友提问，并将朋友的回答写在下面。</p>
-        
-        <p><strong>示例:</strong></p>
-        <p>1) 책, 읽다</p>
-        <p>가: 이 책 읽어도 돼요?</p>
-        <p>나: 네, 돼요.</p>
-        
-        <p>2) 사진, 보다</p>
-        <p>가: <input type="text" id="q4-1" class="korean-input"></p>
-        <p>나: <input type="text" id="q4-2" class="korean-input"></p>
-        
-        <p>3) 과자, 먹다</p>
-        <p>가: <input type="text" id="q4-3" class="korean-input"></p>
-        <p>나: <input type="text" id="q4-4" class="korean-input"></p>
-        
-        <p>4) 운동화, 신다</p>
-        <p>가: <input type="text" id="q4-5" class="korean-input"></p>
-        <p>나: <input type="text" id="q4-6" class="korean-input"></p>
+    <div class="congratulations" id="congratulations" style="display: none;">
+        <div>축하해요!</div>
+        <div class="total-time">总用时: <span id="total-time">00:00</span></div>
     </div>
-    
-    <button id="checkTime">检查时间</button>
-    
-    <div id="result"></div>
     
     <script>
-        let startTime = new Date();
+        // 游戏数据
+        const level1Data = [
+            { text: "험준하다", match: "险峻、陡峭" },
+            { text: "짜다", match: "编织、编制、制定" },
+            { text: "협곡", match: "峡谷" },
+            { text: "일품", match: "极品、绝佳、最棒" },
+            { text: "기대하다", match: "期待、希望" },
+            { text: "눈앞", match: "眼前" },
+            { text: "펼쳐지다", match: "展开、展现" },
+            { text: "깊다", match: "深、深远、深厚" },
+            { text: "险峻、陡峭", match: "험준하다" },
+            { text: "编织、编制、制定", match: "짜다" },
+            { text: "深、深远、深厚", match: "깊다" },
+            { text: "峡谷", match: "협곡" },
+            { text: "极品、绝佳、最棒", match: "일품" },
+            { text: "期待、希望", match: "기대하다" },
+            { text: "眼前", match: "눈앞" },
+            { text: "展开、展现", match: "펼쳐지다" }
+        ];
         
-        document.getElementById('checkTime').addEventListener('click', function() {
-            // 检查姓名是否填写
-            const studentName = document.getElementById('studentName').value.trim();
-            if (!studentName) {
-                showResult("请输入您的姓名", false);
-                return;
+        const level2Data = [
+            { text: "험준하고 아름다운 산", match: "险峻而美丽的山" },
+            { text: "여행 일정을 짜다", match: "制定旅行计划" },
+            { text: "비행기를 타다", match: "乘坐飞机" },
+            { text: "창사에 도착하다", match: "到达长沙" },
+            { text: "높은 산과 깊은 협곡이 일품이다", match: "高山深谷堪称一绝" },
+            { text: "한 폭의 그림 같다", match: "如同一幅画" },
+            { text: "눈앞에 펼쳐지다", match: "在眼前展开" },
+            { text: "여행을 기대하다", match: "期待旅行" },
+            { text: "险峻而美丽的山", match: "험준하고 아름다운 산" },
+            { text: "制定旅行计划", match: "여행 일정을 짜다" },
+            { text: "乘坐飞机", match: "비행기를 타다" },
+            { text: "到达长沙", match: "창사에 도착하다" },
+            { text: "高山深谷堪称一绝", match: "높은 산과 깊은 협곡이 일품이다" },
+            { text: "如同一幅画", match: "한 폭의 그림 같다" },
+            { text: "在眼前展开", match: "눈앞에 펼쳐지다" },
+            { text: "期待旅行", match: "여행을 기대하다" }
+        ];
+        
+        // 深色马卡龙色系
+        const bubbleColors = [
+            'bubble-color-1', 'bubble-color-2', 'bubble-color-3', 
+            'bubble-color-4', 'bubble-color-5', 'bubble-color-6',
+            'bubble-color-7', 'bubble-color-8', 'bubble-color-9',
+            'bubble-color-10'
+        ];
+        
+        // 游戏状态
+        let currentLevel = 1;
+        let selectedBubbles = [];
+        let matchedPairs = 0;
+        let gameStartTime = null;
+        let timerInterval = null;
+        let totalPairs = 0;
+        
+        // DOM元素
+        const level1Btn = document.getElementById('level1-btn');
+        const level2Btn = document.getElementById('level2-btn');
+        const level1Container = document.getElementById('level1');
+        const level2Container = document.getElementById('level2');
+        const board1 = document.getElementById('board1');
+        const board2 = document.getElementById('board2');
+        const levelComplete = document.getElementById('level-complete');
+        const congratulations = document.getElementById('congratulations');
+        const timeDisplay = document.getElementById('time');
+        const totalTimeDisplay = document.getElementById('total-time');
+        const timerContainer = document.querySelector('.timer');
+        const nextLevelBtn = document.getElementById('next-level-btn');
+        
+        // 初始化游戏
+        function initGame(level) {
+            currentLevel = level;
+            selectedBubbles = [];
+            matchedPairs = 0;
+            
+            // 记录游戏开始时间（如果是第一次开始游戏）
+            if (!gameStartTime) {
+                gameStartTime = new Date();
+                startTimer();
             }
             
-            // 检查所有输入框是否已填写
-            const inputs = document.querySelectorAll('.korean-input');
-            let allFilled = true;
-            
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    allFilled = false;
-                }
-            });
-            
-            if (!allFilled) {
-                showResult("请完成所有题目后再检查时间", false);
-                return;
-            }
-            
-            // 检查韩语格式（简单检查是否包含韩文字符）
-            let hasKorean = true;
-            inputs.forEach(input => {
-                const value = input.value.trim();
-                if (value && !/[가-힣]/.test(value)) {
-                    hasKorean = false;
-                }
-            });
-            
-            if (!hasKorean) {
-                showResult("请按规范做题，使用正确的韩语格式", false);
-                return;
-            }
-            
-            // 所有检查通过，显示时间
-            let endTime = new Date();
-            let timeDiff = endTime - startTime; // in milliseconds
-            
-            // Convert to minutes and seconds
-            let minutes = Math.floor(timeDiff / 60000);
-            let seconds = Math.floor((timeDiff % 60000) / 1000);
-            
-            let resultText = studentName + " 同学，你完成练习所用时间: ";
-            if (minutes > 0) {
-                resultText += minutes + "分" + seconds + "秒";
+            // 显示正确的关卡
+            if (level === 1) {
+                level1Container.style.display = "flex";
+                level2Container.style.display = "none";
+                createBubbles(level1Data, board1);
+                totalPairs = level1Data.length / 2;
             } else {
-                resultText += seconds + "秒";
+                level1Container.style.display = "none";
+                level2Container.style.display = "flex";
+                createBubbles(level2Data, board2);
+                totalPairs = level2Data.length / 2;
             }
             
-            showResult(resultText, true);
-        });
-        
-        function showResult(message, isSuccess) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.textContent = message;
-            resultDiv.className = isSuccess ? 'success' : 'error';
-            resultDiv.style.display = 'block';
+            // 隐藏所有提示信息
+            levelComplete.style.display = "none";
+            congratulations.style.display = "none";
         }
+        
+        // 开始计时器
+        function startTimer() {
+            // 清除之前的计时器
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            // 更新计时器显示
+            updateTimer();
+            
+            // 设置定时器，每秒更新一次
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+        
+        // 创建泡泡
+        function createBubbles(data, board) {
+            board.innerHTML = '';
+            
+            // 随机排序数据
+            const shuffledData = [...data].sort(() => Math.random() - 0.5);
+            
+            shuffledData.forEach((item, index) => {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.textContent = item.text;
+                bubble.dataset.match = item.match;
+                bubble.dataset.index = index;
+                
+                // 分配颜色
+                const colorIndex = index % bubbleColors.length;
+                bubble.classList.add(bubbleColors[colorIndex]);
+                
+                bubble.addEventListener('click', handleBubbleClick);
+                
+                board.appendChild(bubble);
+            });
+        }
+        
+        // 处理泡泡点击
+        function handleBubbleClick(event) {
+            const bubble = event.target;
+            
+            // 如果已经选中或已匹配，则忽略
+            if (bubble.classList.contains('selected') || bubble.classList.contains('hidden')) {
+                return;
+            }
+            
+            // 如果已经选中了两个泡泡，则忽略
+            if (selectedBubbles.length >= 2) {
+                return;
+            }
+            
+            // 选中泡泡
+            bubble.classList.add('selected');
+            selectedBubbles.push(bubble);
+            
+            // 如果选中了两个泡泡，检查是否匹配
+            if (selectedBubbles.length === 2) {
+                const bubble1 = selectedBubbles[0];
+                const bubble2 = selectedBubbles[1];
+                
+                if (bubble1.textContent === bubble2.dataset.match && bubble2.textContent === bubble1.dataset.match) {
+                    // 匹配成功
+                    setTimeout(() => {
+                        bubble1.classList.add('hidden');
+                        bubble2.classList.add('hidden');
+                        bubble1.classList.remove('selected');
+                        bubble2.classList.remove('selected');
+                        selectedBubbles = [];
+                        matchedPairs++;
+                        
+                        // 检查是否完成游戏
+                        checkGameCompletion();
+                    }, 500);
+                } else {
+                    // 匹配失败
+                    setTimeout(() => {
+                        bubble1.classList.remove('selected');
+                        bubble2.classList.remove('selected');
+                        bubble1.classList.add('shake');
+                        bubble2.classList.add('shake');
+                        
+                        setTimeout(() => {
+                            bubble1.classList.remove('shake');
+                            bubble2.classList.remove('shake');
+                            selectedBubbles = [];
+                        }, 500);
+                    }, 500);
+                }
+            }
+        }
+        
+        // 检查游戏是否完成
+        function checkGameCompletion() {
+            if (matchedPairs === totalPairs) {
+                // 游戏完成
+                if (currentLevel === 1) {
+                    // 第一关完成，显示提示信息
+                    levelComplete.style.display = "flex";
+                } else {
+                    // 第二关完成
+                    // 显示祝贺信息
+                    congratulations.style.display = "flex";
+                    totalTimeDisplay.textContent = timeDisplay.textContent;
+                    
+                    // 喷射彩带
+                    createConfetti();
+                }
+            }
+        }
+        
+        // 格式化时间显示
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${minutes}:${secs}`;
+        }
+        
+        // 更新计时器显示
+        function updateTimer() {
+            if (!gameStartTime) return;
+            
+            const currentTime = new Date();
+            const elapsedTime = Math.floor((currentTime - gameStartTime) / 1000);
+            timeDisplay.textContent = formatTime(elapsedTime);
+        }
+        
+        // 创建彩带效果
+        function createConfetti() {
+            const colors = ['#FF8A9A', '#FF9E7D', '#FFB347', '#FFCC5C', '#B5D8A8', 
+                          '#88C9A1', '#7FB2D0', '#9A9FD7', '#D4A5C8', '#F48FB1',
+                          '#FF8A9A', '#FF9E7D', '#FFB347', '#FFCC5C', '#B5D8A8'];
+            
+            // 创建300个彩带元素
+            for (let i = 0; i < 300; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // 随机位置
+                confetti.style.left = Math.random() * 100 + 'vw';
+                
+                // 随机颜色
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 随机大小
+                const size = Math.random() * 15 + 5;
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                
+                // 随机动画时间
+                const duration = Math.random() * 3 + 3;
+                confetti.style.animationDuration = duration + 's';
+                
+                // 随机延迟
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                
+                // 随机旋转角度
+                const rotation = Math.random() * 720;
+                confetti.style.transform = `rotate(${rotation}deg)`;
+                
+                document.body.appendChild(confetti);
+                
+                // 动画结束后移除
+                setTimeout(() => {
+                    confetti.remove();
+                }, duration * 1000);
+            }
+            
+            // 添加一些大尺寸的特殊彩带
+            for (let i = 0; i < 30; i++) {
+                const specialConfetti = document.createElement('div');
+                specialConfetti.className = 'confetti';
+                specialConfetti.style.left = Math.random() * 100 + 'vw';
+                specialConfetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                specialConfetti.style.width = (Math.random() * 25 + 15) + 'px';
+                specialConfetti.style.height = (Math.random() * 25 + 15) + 'px';
+                specialConfetti.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                specialConfetti.style.animationDelay = (Math.random() * 1.5) + 's';
+                specialConfetti.style.zIndex = '101';
+                
+                // 特殊形状
+                if (i % 3 === 0) {
+                    specialConfetti.style.borderRadius = '50%';
+                } else if (i % 3 === 1) {
+                    specialConfetti.style.borderRadius = '20px';
+                } else {
+                    specialConfetti.style.borderRadius = '50% 50% 0 0';
+                }
+                
+                document.body.appendChild(specialConfetti);
+                
+                setTimeout(() => {
+                    specialConfetti.remove();
+                }, 7000);
+            }
+        }
+        
+        // 事件监听
+        level1Btn.addEventListener('click', () => initGame(1));
+        level2Btn.addEventListener('click', () => initGame(2));
+        nextLevelBtn.addEventListener('click', () => initGame(2));
+        
+        // 初始化第一关
+        initGame(1);
     </script>
 </body>
 </html>
